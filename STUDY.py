@@ -6,25 +6,35 @@ import time
 
 #class Timer
 
-
-
-
 # this is the class for the basic user input for what program they want termianted, expand on the user input class at a later date
-# add a function to start the timer, and how many hours you want to study for, this is the end time for this program, once this timer has eneded, that is where the 
-class UserInput:
+class UserInputAndIO:
     def __init__(self):
         self.InputString = None
         self.InputTime = None
         self.InputPassword = None
+        self.InputCounter = 0
     def GetUserInput(self):
         try:
+            if (self.InputCounter <1):
+                print("WELCOME TO STUDY!")
+                print("_________________")
+                print("Would you like to use existing settings for your current study session")
+                print("Please note that creating new settings will wipe old settings, would you like to continue? [Y/N]")
+                
+                
+            
             self.InputString = input("Enter a program that makes you procrasinate!")
             print(f"Input from user has successfully been recorded {self.InputString}")
+            charInput = input("Would you like to add another app?! [Y/N]")
+            charInput = charInput.lower() #allows it so no matter what the userinputs, the reading of the string will be the same
+            self.InputCounter +=1
+            print(f"The number of apps that you have currently schedculed to terminate{self.InputCounter}")
+            self.GetUserInput() if charInput == "y" else None 
         except ValueError as e:
             print (f"Error in getting user input:{e}")
     def GetUserTimeInput(self):
         try:
-            self.InputTime = float(input("Enter the amount of time you want to study for"))
+            self.InputTime = float(input("Enter the amount of time you want to study for (minutes)"))
             print(f"Goal time successfully stored {self.InputTime}")
         except ValueError as e:
             print(f"Error in getting user input: {e}")
@@ -34,15 +44,11 @@ class UserInput:
             print(f"Password Successfully Stored: {self.InputPassword}")
         except ValueError as e:
             print(f"Error in getting user input: {e}")
-        
-        
-        
-
-
-
+            
 class Terminator:
     def __init__(self, App_Name):
         self.App_Name = App_Name
+        self.ProgramCounter = -1
 
     def terminate(self):
         if self.App_Name is None:
@@ -54,6 +60,7 @@ class Terminator:
                     # Check if the process is running before attempting to terminate
                     if psutil.pid_exists(each_process.info['pid']):
                         each_process.terminate()
+                        ProgramCounter+=1 # this is the counter that tracks how many times the user tries to log back onto something to procrasinate
                         print(f"Terminated process with name: {self.App_Name}")
                     else:
                         print(f"Process with name {self.App_Name} not found.")
@@ -63,7 +70,7 @@ class Terminator:
 
 def main():
     # Create an instance of the Terminator class
-    user_instance = UserInput
+    user_instance = UserInputAndIO
     Input = user_instance.GetUserInput()
     terminator_instance = Terminator(Input)
     terminator_instance2 = Terminator("FaceTime")
