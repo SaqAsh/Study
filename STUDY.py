@@ -6,7 +6,8 @@ class UserInput:
         self.InputString = InputString
     def GetUserInput(self):
         try:
-            print("yeofam")
+            self.InputString = input()
+            print(f"Input from user has successfully been recorded {self.InputString}")
         except ValueError as e:
             print (f"Error in getting userinput:{e}")
         
