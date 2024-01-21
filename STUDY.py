@@ -155,16 +155,14 @@ class Terminator:
         #             Chrome_instance.close()
         #             print(f"Terminating process with name: {tabs}")
                     
-                
-
+            
+            
 def main():
     User = UserInputAndIO()
     while True:
         User.GetUserInput()
         if User.TimeFlag is True:
             break 
-            
-       
 
 if __name__ == "__main__":
     main()
