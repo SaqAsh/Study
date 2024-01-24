@@ -1,5 +1,1 @@
-Spotify 
-FaceTime
-Discord
-Messages
-Photos
+Discord.exe

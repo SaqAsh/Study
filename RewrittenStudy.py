@@ -9,9 +9,8 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import font
 import customtkinter as ctk
-
-
-
+import time
+filepath = "settings.txt"
 #Purpose: To handle the termination of apps
 #TO-DO: To make terminator for terminating tabs that user opens
 #___________________________________________________________________________________________________________________________________
@@ -43,14 +42,16 @@ class Terminator:
                             print(f"Error terminating process: {e}")
 
     #implement the tab termination code in order to run selenium based tab terminator       
-    #def terminateTabs(self)
+    #def terminateTabs(self):
 #______________________________________________________________________________________________________________________________________   
-                            
+
+#______________________________________________________________________________________________________________________________________
 class Graphics:
 
     def __init__(self, root):
-
-        #sets the background and appearance
+        self.File_Path = "settings.txt"
+        self.elapsed_time =0
+        #sets the background and appearance initialization
         #_____________________________________
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("blue")
@@ -58,67 +59,117 @@ class Graphics:
         root.geometry("720x720")
         root.title("Welcome To STUDY!")
         #_____________________________________
-        
-        #these are the custom fonts that I made for tkinter, they are not used anymore, will delete soon
+
+        #custom fonts
         #_______________________________________________________________________________________________
-        self.customTitle = ctk.CTkFont( size=60, underline = True)
-        self.customBody = ctk.CTkFont( size = 18)
+        self.customTitle = ctk.CTkFont( size=90, underline = False)
+        self.customBody = ctk.CTkFont( size = 40)
+        self.customBodyU = ctk.CTkFont( size = 18, underline = False)
         self.customBodySmall = ctk.CTkFont(family = "Courier New", size = 12)
         #_______________________________________________________________________________________________
-        
-        #Title
-        #______________________________________________________________________________________________________________________
-        # self.MainTitle = ctk.CTkLabel(master = root, text = "Welcome To STUDY!",font = self.customTitle, padx = 20, pady = 20)
-        # self.MainTitle.pack()
-        #______________________________________________________________________________________________________________________
-
         # Formatting the Tabs
         #______________________________________________________________________________________________________________________
         tabview = ctk.CTkTabview(master = root, width = 720, height = 800)
         tabview.pack()
-        tab_1 = tabview.add("                                 tab 1                                 ")
-        tab_2 = tabview.add("                                 tab 2                                ")
-        tab_3 = tabview.add("                                 tab 3                                 ")
-
+        tab_1 = tabview.add("                                       Termination                                       ")
+        tab_2 = tabview.add("                                        Progress                                        ")
         #______________________________________________________________________________________________________________________
 
         #Items in tab #1
         #______________________________________________________________________________________________________________________
-        self.label = ctk.CTkLabel(master = tab_1, text= "Enter Apps To Terminate:", font = self.customBody, padx = 10, pady = 15)
+        #label for termination
+        self.label = ctk.CTkLabel(master=tab_1, text="Enter Apps To Terminate:", font=self.customBodyU, padx=10, pady=15)
         self.label.grid(row=0, column=0, sticky="w")
-        self.entry = ctk.CTkEntry(master =tab_1, width = 475)
-        self.entry.grid(row=0, column=1)
 
+        # Entry widget for app termination
+        self.entry = ctk.CTkEntry(master=tab_1, width=317)
+        self.entry.grid(row=0, column=1, sticky="ew", padx=5)
+
+        # Button to save to file
+        self.writeFileButton = ctk.CTkButton(master=tab_1, text="Save File")
+        self.writeFileButton.grid(row=0, column=2, padx=5, sticky="w")
+
+        #label to show the existing settings
+        self.label2 = ctk.CTkLabel(master=tab_1, text="Existing Settings:", font=self.customBodyU, padx=10, pady=0)
+        self.label2.grid(row=1, column=0, sticky="w")
+
+        #the scrolling textboox that will be getting all the input from the file and adding to it
+        self.scroll_text_ = ctk.CTkTextbox(master= tab_1, activate_scrollbars=True, width=675, height = 500)
+        self.scroll_text_.grid(row = 2, column = 0, columnspan = 3)
+
+        #this clears all the information from the files
+        self.clear = ctk.CTkButton(master=tab_1, text="Clear Settings", width=300, font = self.customBody)
+        self.clear.grid(row=20, column=1, padx=10, sticky="w")
+
+
+        # Configure row weights for vertical spacing
+        for i in range(20):
+            tab_1.grid_rowconfigure(i, weight=1)
+  
+      
 
         #______________________________________________________________________________________________________________________
 
         #Items in tab #2
         #______________________________________________________________________________________________________________________
+        self.label2 = ctk.CTkLabel(master=tab_2, text="Enter a study time (minutes):", font=self.customBodyU, padx=10, pady=15 )
+        self.label2.grid(row=0, column=0, sticky = 'w')
+
+        # Entry widget for study time
+        self.entry2 = ctk.CTkEntry(master=tab_2, width=300)
+        self.entry2.grid(row=0, column=1)
+
+        self.writeFileButton1 = ctk.CTkButton(master=tab_2, text="Save Time")
+        self.writeFileButton1.grid(row=0, column=2, padx = 5)
+
+        # Label for displaying time
+        self.time_label = ctk.CTkLabel(master=tab_2, text="00:00:00", font=self.customTitle, padx=20, pady=20)
+        self.time_label.grid(row=19, column=0, columnspan=3)
+        
+        #Termination Log Label
+        self.label3 = ctk.CTkLabel(master=tab_2, text="Termination Log:", font=self.customBodyU, padx=10, pady=15)
+        self.label3.grid(row=1, column=0, sticky="w")
+
+        # Start button
+        self.start_button = ctk.CTkButton(master=tab_2, text="Start STUDY!", font=self.customBody, width=330, command=self.start_time)
+        self.start_button.grid(row=20, column=0, columnspan=3, pady = 20)
+
+        self.scroll_text = ctk.CTkTextbox(master= tab_2, activate_scrollbars=True, width=675, height = 350)
+        self.scroll_text.grid(row = 3, column = 0, columnspan = 3)
+
+        # Configure the columns and rows for centering
+        for i in range(20):
+            tab_2.grid_rowconfigure(i, weight=1)
 
 
-
-        #______________________________________________________________________________________________________________________
-
-        #Items in tab #3
-        #______________________________________________________________________________________________________________________
-
-
-
-        #______________________________________________________________________________________________________________________
-
-
-        # self.entry = ctk.CTkEntry(master =root, width = 50)
-        # self.entry.pack()
-
-        # self.terminationButton = ctk.CTkButton(master = root, text = "Terminate Processes", command=self.terminateEvent)
-        # self.terminationButton.pack()
-
+    def start_time(self):
+        self.update_clock()
     def terminateEvent(self):
         while True:
             terminateProcess = self.entry.get().split(",")
             terminator = Terminator(terminateProcess)
             terminator.terminateApps()
-            #messagebox.showinfo("Termination Complete", f"Terminated {terminator.intTerminationCounter} processes.")
+    def Writefile(self):
+        input_text = self.entry.get()  # Get the text from the entry widget
+        try:
+            with open(self.File_Path, "w") as file:  # Open the file in write mode
+                file.write(input_text)  # Write the input text to the file
+            messagebox.showinfo("Success", "Input saved to file successfully.")
+        except Exception as e:
+            messagebox.showerror("Error", f"An error occurred: {e}")
+
+    #clock code generated by gpt4
+    def update_clock(self):
+        hours, remainder = divmod(self.elapsed_time, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        formatted_time = f"{hours:02}:{minutes:02}:{seconds:02}"
+        
+        self.time_label.configure(text=formatted_time)
+        self.elapsed_time += 1  # Increment the timer
+        self.root.after(1000, self.update_clock)
+
+
+
 
 
 def main():
