@@ -179,13 +179,18 @@ class Graphics:
         self.elapsed_time += 1  # Increment the timer
         self.root.after(1000, self.update_clock)
 
+    #tab 3
+    # def Graphs(self):
+    #     pass
+    # #this is going to be the productivity rating of a user and it will show how is the user doing throughout the week, depending on the day, if they are procrasinating more or less
 
+    # def FileFormatting(self):
+    #     pass
+    # #this will format the file for the user data
 
-    
-
-
-
-
+    # def StudyRating (self):
+    #     pass
+    # #this is going to be the calculations based on how does the user actually performs throughout the studying session
 
 def main():
     root = ctk.CTk()
